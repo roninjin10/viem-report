@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "tsx index.ts",
+    "test": "npx vitest index.spec.ts",
     "build": "cd lib/viem && bun i && bun run build && cd ../.."
   },
   "keywords": [],
@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "typescript": "^5.4.3",
-    "viem": "file:lib/viem/src"
+    "viem": "file:lib/viem/src",
+    "vitest": "^1.4.0"
   },
   "devDependencies": {
     "tsx": "^4.7.1"
