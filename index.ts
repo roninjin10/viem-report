@@ -1,6 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { optimismSepolia, sepolia } from "viem/chains";
-import { buildProveWithdrawal, getL2Output } from "viem/op-stack";
+import { buildProveWithdrawal } from "viem/op-stack";
+import { getDisputeGame } from "./lib/viem/src/_esm/chains/opStack/actions/getDisputeGame.js";
 
 async function main() {
   const l1 = createPublicClient({
@@ -13,17 +14,17 @@ async function main() {
     transport: http(optimismSepolia.rpcUrls.default.http[0]),
   });
 
-  const output = await getL2Output(l1, {
+  const game = await getDisputeGame(l1, {
     l2BlockNumber: BigInt(9248350),
-    portalAddress: "0x16Fc5058F25648194471939df75CF27A2fdC48BC",
-    l2OutputOracleAddress: "0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F",
+    targetChain: optimismSepolia,
+    limit: 10,
     disputeGameFactoryAddress: "0x05F9613aDB30026FFd634f38e5C4dFd30a197Fa1",
-    chain: null,
+    chain: sepolia,
   });
-  console.log(output);
+  console.log('game', game);
 
-  const args = await buildProveWithdrawal(l1, {
-    output,
+  const args = await buildProveWithdrawal(l2, {
+    game,
     withdrawal: {
       nonce:
         1766847064778384329583297500742918515827483896875618958121606201292621636n,
@@ -35,7 +36,6 @@ async function main() {
       withdrawalHash:
         "0x8112d297788a17191e7239a03b6e93ae18c3d9f35f6f60cf52983434d54de9f2",
     },
-
     portalAddress: "0x16Fc5058F25648194471939df75CF27A2fdC48BC",
     disputeGameFactoryAddress: "0x05F9613aDB30026FFd634f38e5C4dFd30a197Fa1",
   });
