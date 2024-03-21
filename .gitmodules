@@ -1,0 +1,3 @@
+[submodule "lib/viem"]
+	path = lib/viem
+	url = https://github.com/wevm/viem.git
